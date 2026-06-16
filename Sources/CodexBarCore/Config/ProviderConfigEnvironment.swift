@@ -34,6 +34,8 @@ public enum ProviderConfigEnvironment {
             if CodebuffSettingsReader.apiKey(environment: base) == nil {
                 env[CodebuffSettingsReader.apiTokenKey] = apiKey
             }
+        case .gloocode:
+            env[GlooCodeSettingsReader.apiKeyEnvironmentKey] = apiKey
         case .crof:
             if CrofSettingsReader.apiKey(environment: base) == nil,
                let key = CrofSettingsReader.apiKeyEnvironmentKeys.first
@@ -53,7 +55,7 @@ public enum ProviderConfigEnvironment {
     public static func supportsAPIKeyOverride(for provider: UsageProvider) -> Bool {
         if self.directAPIKeyEnvironmentKey(for: provider) != nil { return true }
         switch provider {
-        case .copilot, .kimik2, .warp, .codebuff, .crof, .doubao:
+        case .copilot, .kimik2, .warp, .codebuff, .gloocode, .crof, .doubao:
             return true
         case .azureopenai:
             return true
@@ -68,6 +70,8 @@ public enum ProviderConfigEnvironment {
             LLMProxySettingsReader.baseURLEnvironmentKey
         case .litellm:
             LiteLLMSettingsReader.baseURLEnvironmentKey
+        case .gloocode:
+            GlooCodeSettingsReader.apiURLEnvironmentKey
         default:
             nil
         }
@@ -89,7 +93,7 @@ public enum ProviderConfigEnvironment {
             self.applyBedrockOverrides(base: base, config: config)
         case .deepgram:
             self.applyDeepgramOverrides(base: base, config: config)
-        case .llmproxy, .litellm:
+        case .llmproxy, .litellm, .gloocode:
             self.applyAPIKeyAndBaseURLOverrides(base: base, provider: provider, config: config)
         case .azureopenai:
             self.applyAzureOpenAIOverrides(base: base, config: config)
@@ -134,6 +138,8 @@ public enum ProviderConfigEnvironment {
             VeniceSettingsReader.apiKeyEnvironmentKey
         case .deepgram:
             DeepgramSettingsReader.apiKeyEnvironmentKey
+        case .gloocode:
+            GlooCodeSettingsReader.apiKeyEnvironmentKey
         case .groq:
             GroqSettingsReader.apiKeyEnvironmentKey
         case .llmproxy:

@@ -244,6 +244,8 @@ extension CodexBarCLI {
             OpenAIAPISettingsReader.apiKey(environment: environment) != nil
         case .openrouter:
             OpenRouterSettingsReader.apiToken(environment: environment) != nil
+        case .gloocode:
+            GlooCodeSettingsReader.apiKey(environment: environment) != nil
         case .stepfun:
             StepFunSettingsReader.token(environment: environment) != nil
         case .synthetic:
